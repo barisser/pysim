@@ -10,8 +10,14 @@ map_screen_x_margin_right = 0
 map_screen_y_margin_top = 0
 
 world_map = -1
-tilex = 141
+tilex = 100
 tiley = 100
+
+def linear_to_hex_spacing(rowx, coly):
+    if coly%2 == 0:
+        x = rowx * tilex
+    else:
+        x = (rowx+0.5) * tilex
 
 def draw_world_surface(surface, world_object):
     draw_terrain(surface, world_object)
