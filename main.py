@@ -1,9 +1,10 @@
 import pygame
 import gamelogic
+import io
 
 screen_width = 800
 screen_height = 600
-frame_rate = 60
+frame_rate = 50
 
 def init():
     pygame.init()
@@ -20,14 +21,20 @@ def main_loop():
     done = False
 
     world = gamelogic.game_init()
+    map_screen = gamelogic.graphics.map_init(world)
+    tempdata = gamelogic.temp_init(world)
+    gamelogic.graphics.update_map(map_screen, world)
 
     while not done:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 done = True
+            else:
+                pressed = pygame.key.get_pressed()
+                tempdata = io.respond_to_inputs(event, pressed, tempdata, world)
 
         screen.fill((0, 0, 0))
-        gamelogic.cycle(screen, world)
+        gamelogic.cycle(screen, world, tempdata)
 
         pygame.display.flip()
         clock.tick(frame_rate)

@@ -9,15 +9,32 @@ map_screen_y_margin_bottom = 100
 map_screen_x_margin_right = 0
 map_screen_y_margin_top = 0
 
-world_map = -1
-tilex = 100
+tilex = 142
 tiley = 100
 
+def map_init(world_object):
+    width = world_object.mapx * tilex
+    height = world_object.mapy * tiley
+    world_map = pygame.Surface((width, height))
+    return world_map
+
+def regenerate_map(world_object, zoom):
+    m = map_init(world_object)
+    width = int(world_object.mapx*tilex / zoom)
+    height = int(world_object.mapy*tiley / zoom)
+    print width
+    print height
+    render_world(m, world_object)
+    stretched_map = pygame.transform.smoothscale(m, (width, height))
+    return stretched_map
+
 def linear_to_hex_spacing(rowx, coly):
+    y = coly * tiley /2
     if coly%2 == 0:
         x = rowx * tilex
     else:
         x = (rowx+0.5) * tilex
+    return (x, y)
 
 def draw_world_surface(surface, world_object):
     draw_terrain(surface, world_object)
@@ -25,14 +42,30 @@ def draw_world_surface(surface, world_object):
 def draw_terrain(surface, world_object):
     for x in range(world_object.mapx):
         for y in range(world_object.mapy):
-            px = tilex*x
-            py = tiley*y
+            point = linear_to_hex_spacing(x, y)
             terrain_type = world_object.map[x][y].terrain
             img = image_set.terrain_colors[terrain_type]
-            surface.blit(img, (px, py))
+            surface.blit(img, point)
 
-def draw(surface, world):
-    draw_world_surface(surface, world)
+def update_map(map_screen, world):
+    draw_world_surface(map_screen, world)
+
+def draw(screen, world, temp_data):
+    x = temp_data['x_position']
+    y = temp_data['y_position']
+    map_screen = temp_data['map_object']
+    position_map(map_screen, screen, temp_data['zoom'], temp_data['x_position'], temp_data['y_position'])
+
+def position_map(map_surface, screen, zoom, x, y):
+    px = x * tilex
+    py = y * tiley
+    p = (px, py)
+    width = int(map_surface.get_width() / zoom)
+    height = int(map_surface.get_height() / zoom)
+    map_view_width = main.screen_width - map_screen_x_margin_right - map_screen_x_margin_left
+    map_view_height = main.screen_height - map_screen_y_margin_top - map_screen_y_margin_bottom
+    #screen.blit(stretched_map, (map_screen_x_margin_left, map_screen_y_margin_top), (px, py, map_view_width, map_view_height))
+    screen.blit(map_surface, (map_screen_x_margin_left, map_screen_y_margin_top), (px, py, map_view_width, map_view_height))
 
 def render_gridlines(screen, point_list, grid_color):
     pygame.draw.line(screen, grid_color, point_list[0], point_list[1], 1)

@@ -5,8 +5,8 @@ land_colors = {}
 land_colors[0] = (0,0,255)
 land_colors[1] = (50, 200, 10)
 
-mapy = 20
-mapx = 10
+mapy = 100
+mapx = 100
 
 class World:
     def __init__(self, mapx, mapy):
