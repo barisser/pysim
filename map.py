@@ -8,6 +8,7 @@ land_colors[1] = (50, 200, 10)
 mapy = 100
 mapx = 100
 
+
 class World:
     def __init__(self, mapx, mapy):
         self.map = []
@@ -29,13 +30,16 @@ class Land:
         self.resources = []
         self.cities = []
 
+
 def blank_world():
     return World(mapx, mapy)
+
 
 def island_world():
     w = World(mapx, mapy)
     w = islands(w)
     return w
+
 
 def plains_world():
     w = World(mapx, mapy)
@@ -43,6 +47,7 @@ def plains_world():
         for y in range(w.mapy):
             w.map[x][y].terrain = 1
     return w
+
 
 def islands(world):
     for x in range(world.mapx):
