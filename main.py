@@ -6,11 +6,13 @@ screen_width = 800
 screen_height = 600
 frame_rate = 50
 
+
 def init():
     pygame.init()
     screen = pygame.display.set_mode((screen_width, screen_height))
     gamelogic.graphics.image_set.init()
     return screen
+
 
 def main_loop():
     clock = pygame.time.Clock()
