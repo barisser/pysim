@@ -2,12 +2,15 @@ import pygame
 import graphics
 import map
 
+
 def cycle(screen, world, tempdata):
     #render_land(screen)
     graphics.draw(screen, world, tempdata)
 
+
 def game_init():
     return map.island_world()
+
 
 def temp_init(world_object):
     tempdata = {}
