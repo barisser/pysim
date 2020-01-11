@@ -5,6 +5,7 @@ zoom_multiplier = 1.5
 zoom_max = 16
 zoom_min = 1
 
+
 def respond_to_inputs(event, pressed, tempdata, world_object):
     if pressed[pygame.K_UP]:
         print "UP"
